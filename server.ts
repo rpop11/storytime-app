@@ -1,11 +1,14 @@
 import "dotenv/config";
 import express from "express";
 import Anthropic from "@anthropic-ai/sdk";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.json());
 
-const client = new Anthropic(); // reads ANTHROPIC_API_KEY from env
+const client = new Anthropic();
 
 const SYSTEM_PROMPT = `You are a bedtime story teller for young children who are just learning to read.
 
@@ -61,6 +64,15 @@ Listen time: ${listenTime}`;
   res.end();
 });
 
-app.listen(3001, () => {
-  console.log("Storytime API server running on http://localhost:3001");
+// Serve built React app in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "dist")));
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
+
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Storytime server running on port ${port}`);
 });

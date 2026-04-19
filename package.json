@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"tsx watch server.ts\"",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "start": "NODE_ENV=production tsx server.ts",
     "preview": "vite preview",
     "server": "tsx server.ts"
   },
