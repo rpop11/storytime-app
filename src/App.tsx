@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CharacterPicker from "./components/CharacterPicker";
+import GoalPicker from "./components/GoalPicker";
 import SettingPicker from "./components/SettingPicker";
 import VibePicker from "./components/VibePicker";
 import ListenTimePicker from "./components/ListenTimePicker";
@@ -8,6 +9,7 @@ import "./App.css";
 
 export interface StoryConfig {
   characters: string;
+  goal: string;
   setting: string;
   vibe: string;
   listenTime: string;
@@ -15,6 +17,7 @@ export interface StoryConfig {
 
 const DEFAULT_CONFIG: StoryConfig = {
   characters: "",
+  goal: "",
   setting: "",
   vibe: "",
   listenTime: "",
@@ -30,7 +33,11 @@ export default function App() {
     setConfig((c) => ({ ...c, [key]: value }));
 
   const isReady =
-    config.characters && config.setting && config.vibe && config.listenTime;
+    config.characters &&
+    config.goal &&
+    config.setting &&
+    config.vibe &&
+    config.listenTime;
 
   async function handleGenerate() {
     if (!isReady) return;
@@ -78,7 +85,7 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <h1>Storytime</h1>
-        <p className="tagline">A bedtime story, just for you</p>
+        <p className="tagline">Let's make your story! 📖</p>
       </header>
 
       {!started ? (
@@ -86,6 +93,10 @@ export default function App() {
           <CharacterPicker
             value={config.characters}
             onChange={(v) => update("characters", v)}
+          />
+          <GoalPicker
+            value={config.goal}
+            onChange={(v) => update("goal", v)}
           />
           <SettingPicker
             value={config.setting}
@@ -105,7 +116,7 @@ export default function App() {
             onClick={handleGenerate}
             disabled={!isReady}
           >
-            Tell me a story!
+            {isReady ? "Start the adventure! 🚀" : "Pick all 5 to begin..."}
           </button>
         </main>
       ) : (

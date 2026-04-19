@@ -28,8 +28,9 @@ LENGTH:
 Write the story only. No titles, no preamble, no "here is your story". Just begin the story directly.`;
 
 app.post("/api/generate-story", async (req, res) => {
-  const { characters, setting, vibe, listenTime } = req.body as {
+  const { characters, goal, setting, vibe, listenTime } = req.body as {
     characters: string;
+    goal: string;
     setting: string;
     vibe: string;
     listenTime: string;
@@ -40,6 +41,7 @@ app.post("/api/generate-story", async (req, res) => {
   res.setHeader("Connection", "keep-alive");
 
   const prompt = `Characters: ${characters}
+Goal: ${goal}
 Setting: ${setting}
 Vibe: ${vibe}
 Listen time: ${listenTime}`;

@@ -20,8 +20,11 @@
   gap: 0.6rem;
 }
 
-.vibe-grid,
-.time-grid {
+.four-col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.vibe-grid {
   grid-template-columns: repeat(4, 1fr);
 }
 

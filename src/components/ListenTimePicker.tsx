@@ -6,15 +6,15 @@ interface Props {
 }
 
 const OPTIONS = [
-  { label: "2 minutes", emoji: "⚡", desc: "a quick tale" },
-  { label: "5 minutes", emoji: "🌟", desc: "just right" },
-  { label: "10 minutes", emoji: "🌙", desc: "a long adventure" },
+  { label: "Short", emoji: "⚡", desc: "2 minutes" },
+  { label: "Medium", emoji: "🌟", desc: "5 minutes" },
+  { label: "Long", emoji: "🌙", desc: "10 minutes" },
 ];
 
 export default function ListenTimePicker({ value, onChange }: Props) {
   return (
     <section className="picker-section">
-      <h2 className="picker-label">How long is the story?</h2>
+      <h2 className="picker-label">How long should the story be?</h2>
       <div className="picker-grid time-grid">
         {OPTIONS.map((opt) => (
           <button

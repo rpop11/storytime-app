@@ -6,18 +6,17 @@ interface Props {
 }
 
 const OPTIONS = [
-  { label: "A cozy forest", emoji: "🌲" },
-  { label: "A cloud kingdom", emoji: "☁️" },
-  { label: "An underwater cave", emoji: "🌊" },
-  { label: "A snowy mountain", emoji: "🏔️" },
-  { label: "A secret garden", emoji: "🌸" },
-  { label: "A moonlit meadow", emoji: "🌙" },
+  { label: "Find something lost", emoji: "🔍" },
+  { label: "Help a friend", emoji: "🤝" },
+  { label: "Go on an adventure", emoji: "🗺️" },
+  { label: "Solve a mystery", emoji: "🕵️" },
+  { label: "Save the day", emoji: "⭐" },
 ];
 
-export default function SettingPicker({ value, onChange }: Props) {
+export default function GoalPicker({ value, onChange }: Props) {
   return (
     <section className="picker-section">
-      <h2 className="picker-label">Where does the adventure happen?</h2>
+      <h2 className="picker-label">What are they trying to do?</h2>
       <div className="picker-grid">
         {OPTIONS.map((opt) => (
           <button

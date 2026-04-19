@@ -6,19 +6,21 @@ interface Props {
 }
 
 const OPTIONS = [
-  { label: "A brave little rabbit", emoji: "🐰" },
-  { label: "A sleepy bear cub", emoji: "🐻" },
-  { label: "A playful fox kit", emoji: "🦊" },
+  { label: "A brave rabbit", emoji: "🐰" },
+  { label: "A sleepy bear", emoji: "🐻" },
+  { label: "A playful fox", emoji: "🦊" },
   { label: "A tiny dragon", emoji: "🐲" },
-  { label: "A kind young witch", emoji: "🧙‍♀️" },
-  { label: "Two best friends", emoji: "👫" },
+  { label: "A friendly unicorn", emoji: "🦄" },
+  { label: "A funny robot", emoji: "🤖" },
+  { label: "A young witch", emoji: "🧙‍♀️" },
+  { label: "A kid hero", emoji: "🦸" },
 ];
 
 export default function CharacterPicker({ value, onChange }: Props) {
   return (
     <section className="picker-section">
-      <h2 className="picker-label">Who is in the story?</h2>
-      <div className="picker-grid">
+      <h2 className="picker-label">Who is the story about?</h2>
+      <div className="picker-grid four-col">
         {OPTIONS.map((opt) => (
           <button
             key={opt.label}

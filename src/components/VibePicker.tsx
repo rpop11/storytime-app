@@ -15,7 +15,7 @@ const OPTIONS = [
 export default function VibePicker({ value, onChange }: Props) {
   return (
     <section className="picker-section">
-      <h2 className="picker-label">What is the feeling?</h2>
+      <h2 className="picker-label">What kind of story is it?</h2>
       <div className="picker-grid vibe-grid">
         {OPTIONS.map((opt) => (
           <button
