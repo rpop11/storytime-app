@@ -1,0 +1,62 @@
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.app-header h1 {
+  font-size: 3rem;
+  color: #c0440a;
+  letter-spacing: -1px;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #8b5e3c;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.picker-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.generate-btn {
+  margin-top: 1rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  align-self: center;
+}
+
+.generate-btn.ready {
+  background: #c0440a;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(192, 68, 10, 0.4);
+}
+
+.generate-btn.ready:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(192, 68, 10, 0.45);
+}
+
+.generate-btn.ready:active {
+  transform: translateY(0);
+}
+
+.generate-btn.disabled {
+  background: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}

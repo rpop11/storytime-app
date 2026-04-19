@@ -1,0 +1,96 @@
+.story-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.story-scroll {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
+  min-height: 300px;
+}
+
+.story-text {
+  font-size: 1.35rem;
+  line-height: 2;
+  color: #2e1a0e;
+  white-space: pre-wrap;
+}
+
+.loading-text {
+  font-size: 1.35rem;
+  color: #a07050;
+  font-style: italic;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.3em;
+  background: #c0440a;
+  border-radius: 2px;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.story-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 0.75rem 1.75rem;
+  font-size: 1.1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.action-btn.speak {
+  background: #c0440a;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(192, 68, 10, 0.35);
+}
+
+.action-btn.speak:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(192, 68, 10, 0.4);
+}
+
+.action-btn.stop {
+  background: #fff;
+  color: #8b5e3c;
+  border: 2px solid #e8d5c4;
+}
+
+.action-btn.stop:hover {
+  background: #fff8f5;
+}
+
+.action-btn.reset {
+  background: #fff;
+  color: #8b5e3c;
+  border: 2px solid #e8d5c4;
+}
+
+.action-btn.reset:hover {
+  background: #fff8f5;
+}
