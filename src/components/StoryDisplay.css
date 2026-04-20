@@ -16,7 +16,17 @@
   font-size: 1.35rem;
   line-height: 2;
   color: #2e1a0e;
-  white-space: pre-wrap;
+}
+
+.word {
+  display: inline;
+}
+
+.word.highlighted {
+  background: #ffe066;
+  border-radius: 4px;
+  padding: 0 2px;
+  transition: background 0.1s;
 }
 
 .loading-text {
