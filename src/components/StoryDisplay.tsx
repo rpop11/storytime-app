@@ -64,13 +64,19 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
 
     audio.onloadedmetadata = () => {
       const timePerWord = audio.duration / wordList.length;
-      audio.ontimeupdate = () => {
+      const LEAD = 0.25; // highlight slightly ahead of audio
+      let rafId: number;
+      const tick = () => {
         const idx = Math.min(
-          Math.floor(audio.currentTime / timePerWord),
+          Math.floor((audio.currentTime + LEAD) / timePerWord),
           wordList.length - 1
         );
         setCurrentWord(idx);
+        rafId = requestAnimationFrame(tick);
       };
+      audio.onplay = () => { rafId = requestAnimationFrame(tick); };
+      audio.onpause = () => cancelAnimationFrame(rafId);
+      audio.onended = () => cancelAnimationFrame(rafId);
     };
 
     audio.onended = () => {
