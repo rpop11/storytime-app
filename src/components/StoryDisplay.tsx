@@ -120,25 +120,32 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
   }
 
   function renderStory() {
-    const tokens = story.split(/(\s+)/);
+    const paragraphs = story.split(/\n\n+/).filter((p) => p.trim());
     let wordIdx = 0;
     return (
-      <p className="story-text">
-        {tokens.map((token, i) => {
-          if (/^\s+$/.test(token)) return token;
-          const thisIdx = wordIdx++;
-          const isHighlighted = thisIdx === currentWord;
+      <>
+        {paragraphs.map((para, pi) => {
+          const tokens = para.split(/(\s+)/);
           return (
-            <span
-              key={i}
-              ref={isHighlighted ? highlightRef : null}
-              className={`word${isHighlighted ? " highlighted" : ""}`}
-            >
-              {token}
-            </span>
+            <p key={pi} className="story-text">
+              {tokens.map((token, i) => {
+                if (/^\s+$/.test(token)) return token;
+                const thisIdx = wordIdx++;
+                const isHighlighted = thisIdx === currentWord;
+                return (
+                  <span
+                    key={i}
+                    ref={isHighlighted ? highlightRef : null}
+                    className={`word${isHighlighted ? " highlighted" : ""}`}
+                  >
+                    {token}
+                  </span>
+                );
+              })}
+            </p>
           );
         })}
-      </p>
+      </>
     );
   }
 

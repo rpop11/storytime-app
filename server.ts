@@ -27,6 +27,10 @@ LENGTH:
 - Medium = approximately 400 words
 - Long = approximately 800 words
 
+FORMAT:
+- Break the story into short paragraphs of 3-5 sentences each.
+- Leave a blank line between paragraphs.
+
 Write the story only. No titles, no preamble, no "here is your story". Just begin the story directly.`;
 
 app.post("/api/generate-story", async (req, res) => {
