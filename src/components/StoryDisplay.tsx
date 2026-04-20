@@ -7,19 +7,47 @@ interface Props {
   onReset: () => void;
 }
 
+type AudioState = "idle" | "loading" | "playing" | "paused";
+
+const LOADING_LINES = [
+  "Clearing my throat... 🎤",
+  "Warming up the storyteller... 📖",
+  "Finding my best reading voice... 🎙️",
+  "Summoning the narrator... ✨",
+  "Getting cozy before we begin... 🕯️",
+  "Putting on my storytelling hat... 🎩",
+];
+
 export default function StoryDisplay({ story, loading, onReset }: Props) {
-  const [speaking, setSpeaking] = useState(false);
+  const [audioState, setAudioState] = useState<AudioState>("idle");
   const [currentWord, setCurrentWord] = useState(-1);
   const hasAutoRead = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const highlightRef = useRef<HTMLSpanElement | null>(null);
+  const loadingLine = useRef(
+    LOADING_LINES[Math.floor(Math.random() * LOADING_LINES.length)]
+  );
 
-  async function speak(text: string) {
-    if (audioRef.current) {
-      audioRef.current.pause();
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
       audioRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (highlightRef.current) {
+      highlightRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+  }, [currentWord]);
+
+  async function fetchAndPlay(text: string) {
+    audioRef.current?.pause();
+    audioRef.current = null;
     setCurrentWord(-1);
-    setSpeaking(true);
+    setAudioState("loading");
+    loadingLine.current =
+      LOADING_LINES[Math.floor(Math.random() * LOADING_LINES.length)];
 
     const res = await fetch("/api/speak", {
       method: "POST",
@@ -46,27 +74,36 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
     };
 
     audio.onended = () => {
-      setSpeaking(false);
+      setAudioState("idle");
       setCurrentWord(-1);
       URL.revokeObjectURL(url);
     };
 
     audio.play();
+    setAudioState("playing");
+  }
+
+  function pause() {
+    audioRef.current?.pause();
+    setAudioState("paused");
+  }
+
+  function resume() {
+    audioRef.current?.play();
+    setAudioState("playing");
   }
 
   function stop() {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-    setSpeaking(false);
+    audioRef.current?.pause();
+    audioRef.current = null;
+    setAudioState("idle");
     setCurrentWord(-1);
   }
 
   useEffect(() => {
     if (!loading && story && !hasAutoRead.current) {
       hasAutoRead.current = true;
-      speak(story);
+      fetchAndPlay(story);
     }
   }, [loading, story]);
 
@@ -84,10 +121,12 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
         {tokens.map((token, i) => {
           if (/^\s+$/.test(token)) return token;
           const thisIdx = wordIdx++;
+          const isHighlighted = thisIdx === currentWord;
           return (
             <span
               key={i}
-              className={`word${thisIdx === currentWord ? " highlighted" : ""}`}
+              ref={isHighlighted ? highlightRef : null}
+              className={`word${isHighlighted ? " highlighted" : ""}`}
             >
               {token}
             </span>
@@ -97,33 +136,43 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
     );
   }
 
+  const isReady = !loading && !!story;
+  const busy = audioState === "loading";
+
   return (
     <div className="story-display">
+      {isReady && (
+        <div className="story-controls">
+          {audioState === "playing" ? (
+            <button className="ctrl-btn" onClick={pause}>⏸ Pause</button>
+          ) : (
+            <button
+              className="ctrl-btn"
+              onClick={audioState === "paused" ? resume : () => fetchAndPlay(story)}
+              disabled={busy}
+            >
+              ▶ Play
+            </button>
+          )}
+          <button className="ctrl-btn" onClick={stop} disabled={audioState === "idle" || busy}>
+            ⏹ Stop
+          </button>
+          <button className="ctrl-btn" onClick={() => fetchAndPlay(story)} disabled={busy}>
+            ↺ Restart
+          </button>
+          <button className="ctrl-btn new-story" onClick={handleReset}>
+            ✦ New Story
+          </button>
+        </div>
+      )}
+
       <div className="story-scroll">
-        {loading && !story && (
-          <p className="loading-text">Once upon a time...</p>
+        {audioState === "loading" && isReady && (
+          <p className="audio-loading">{loadingLine.current}</p>
         )}
+        {loading && !story && <p className="loading-text">Once upon a time...</p>}
         {story && renderStory()}
         {loading && story && <span className="cursor" />}
-      </div>
-
-      <div className="story-actions">
-        {!loading && story && (
-          <>
-            {speaking ? (
-              <button className="action-btn stop" onClick={stop}>
-                Stop reading
-              </button>
-            ) : (
-              <button className="action-btn speak" onClick={() => speak(story)}>
-                Read again
-              </button>
-            )}
-          </>
-        )}
-        <button className="action-btn reset" onClick={handleReset}>
-          New story
-        </button>
       </div>
     </div>
   );

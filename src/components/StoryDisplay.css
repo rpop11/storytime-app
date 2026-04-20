@@ -1,7 +1,57 @@
 .story-display {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+}
+
+.story-controls {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 248, 240, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ctrl-btn {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+  border: 2px solid #e8d5c4;
+  border-radius: 50px;
+  background: #fff;
+  color: #3d2b1f;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.ctrl-btn:hover:not(:disabled) {
+  background: #fff0e8;
+  border-color: #c0440a;
+  transform: translateY(-1px);
+}
+
+.ctrl-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ctrl-btn.new-story {
+  background: #c0440a;
+  color: #fff;
+  border-color: #c0440a;
+}
+
+.ctrl-btn.new-story:hover {
+  background: #a33609;
+  border-color: #a33609;
 }
 
 .story-scroll {
@@ -10,6 +60,14 @@
   padding: 2rem 2.5rem;
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
   min-height: 300px;
+}
+
+.audio-loading {
+  font-size: 1rem;
+  color: #c0440a;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .story-text {
@@ -55,52 +113,4 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-.story-actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.action-btn {
-  padding: 0.75rem 1.75rem;
-  font-size: 1.1rem;
-  font-family: inherit;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-
-.action-btn.speak {
-  background: #c0440a;
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(192, 68, 10, 0.35);
-}
-
-.action-btn.speak:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 14px rgba(192, 68, 10, 0.4);
-}
-
-.action-btn.stop {
-  background: #fff;
-  color: #8b5e3c;
-  border: 2px solid #e8d5c4;
-}
-
-.action-btn.stop:hover {
-  background: #fff8f5;
-}
-
-.action-btn.reset {
-  background: #fff;
-  color: #8b5e3c;
-  border: 2px solid #e8d5c4;
-}
-
-.action-btn.reset:hover {
-  background: #fff8f5;
 }
