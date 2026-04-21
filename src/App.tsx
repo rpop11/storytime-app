@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CharacterPicker from "./components/CharacterPicker";
 import GoalPicker from "./components/GoalPicker";
 import SettingPicker from "./components/SettingPicker";
@@ -28,6 +28,7 @@ export default function App() {
   const [story, setStory] = useState("");
   const [loading, setLoading] = useState(false);
   const [started, setStarted] = useState(false);
+  const unlockedAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const update = (key: keyof StoryConfig, value: string) =>
     setConfig((c) => ({ ...c, [key]: value }));
@@ -41,17 +42,10 @@ export default function App() {
 
   async function handleGenerate() {
     if (!isReady) return;
-    // Unlock audio on iOS — must happen inside a direct user gesture
-    try {
-      const AudioContext = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
-      const ctx = new AudioContext();
-      await ctx.resume();
-      const buf = ctx.createBuffer(1, 1, 22050);
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
-      src.connect(ctx.destination);
-      src.start(0);
-    } catch {}
+    // Pre-unlock HTMLAudioElement for iOS — must be called inside a user gesture
+    const silent = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA");
+    silent.play().catch(() => {});
+    unlockedAudioRef.current = silent;
     setLoading(true);
     setStory("");
     setStarted(true);
@@ -135,6 +129,7 @@ export default function App() {
           story={story}
           loading={loading}
           onReset={handleReset}
+          unlockedAudioRef={unlockedAudioRef}
         />
       )}
     </div>

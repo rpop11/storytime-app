@@ -5,6 +5,7 @@ interface Props {
   story: string;
   loading: boolean;
   onReset: () => void;
+  unlockedAudioRef?: React.RefObject<HTMLAudioElement | null>;
 }
 
 type AudioState = "idle" | "loading" | "playing" | "paused";
@@ -18,7 +19,7 @@ const LOADING_LINES = [
   "Putting on my storytelling hat... 🎩",
 ];
 
-export default function StoryDisplay({ story, loading, onReset }: Props) {
+export default function StoryDisplay({ story, loading, onReset, unlockedAudioRef }: Props) {
   const [audioState, setAudioState] = useState<AudioState>("idle");
   const [currentWord, setCurrentWord] = useState(-1);
   const hasAutoRead = useRef(false);
@@ -57,7 +58,16 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
-    const audio = new Audio(url);
+
+    // Reuse the pre-unlocked audio element on iOS to allow auto-play
+    let audio: HTMLAudioElement;
+    if (unlockedAudioRef?.current) {
+      audio = unlockedAudioRef.current;
+      audio.src = url;
+      audio.load();
+    } else {
+      audio = new Audio(url);
+    }
     audioRef.current = audio;
 
     const wordList = text.split(/\s+/);
