@@ -62,12 +62,51 @@
   min-height: 300px;
 }
 
-.audio-loading {
-  font-size: 1rem;
+.audio-loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem 0 1rem;
+}
+
+.audio-loading-emoji {
+  font-size: 3rem;
+  animation: bounce 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
+}
+
+.audio-loading-text {
+  font-size: 1.2rem;
   color: #c0440a;
   font-style: italic;
-  margin-bottom: 1.25rem;
-  animation: pulse 1.5s ease-in-out infinite;
+  font-weight: 600;
+  text-align: center;
+}
+
+.audio-loading-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.audio-loading-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c0440a;
+  animation: dot-pop 0.9s ease-in-out infinite;
+}
+
+.audio-loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.audio-loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes dot-pop {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
 }
 
 .story-text {

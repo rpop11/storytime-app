@@ -41,6 +41,17 @@ export default function App() {
 
   async function handleGenerate() {
     if (!isReady) return;
+    // Unlock audio on iOS — must happen inside a direct user gesture
+    try {
+      const AudioContext = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
+      const ctx = new AudioContext();
+      await ctx.resume();
+      const buf = ctx.createBuffer(1, 1, 22050);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+    } catch {}
     setLoading(true);
     setStory("");
     setStarted(true);

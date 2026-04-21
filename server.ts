@@ -79,7 +79,7 @@ app.post("/api/speak", async (req, res) => {
     model: "tts-1",
     voice: "nova",
     input: text,
-    speed: 0.8,
+    speed: 0.78,
   });
 
   const buffer = Buffer.from(await mp3.arrayBuffer());

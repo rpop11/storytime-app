@@ -149,39 +149,43 @@ export default function StoryDisplay({ story, loading, onReset }: Props) {
     );
   }
 
-  const isReady = !loading && !!story;
+  const storyDone = !loading && !!story;
   const busy = audioState === "loading";
 
   return (
     <div className="story-display">
-      {isReady && (
-        <div className="story-controls">
-          {audioState === "playing" ? (
-            <button className="ctrl-btn" onClick={pause}>⏸ Pause</button>
-          ) : (
-            <button
-              className="ctrl-btn"
-              onClick={audioState === "paused" ? resume : () => fetchAndPlay(story)}
-              disabled={busy}
-            >
-              ▶ Play
-            </button>
-          )}
-          <button className="ctrl-btn" onClick={stop} disabled={audioState === "idle" || busy}>
-            ⏹ Stop
+      <div className="story-controls">
+        {audioState === "playing" ? (
+          <button className="ctrl-btn" onClick={pause}>⏸ Pause</button>
+        ) : (
+          <button
+            className="ctrl-btn"
+            onClick={audioState === "paused" ? resume : () => fetchAndPlay(story)}
+            disabled={busy || !storyDone}
+          >
+            ▶ Play
           </button>
-          <button className="ctrl-btn" onClick={() => fetchAndPlay(story)} disabled={busy}>
-            ↺ Restart
-          </button>
-          <button className="ctrl-btn new-story" onClick={handleReset}>
-            ✦ New Story
-          </button>
-        </div>
-      )}
+        )}
+        <button className="ctrl-btn" onClick={stop} disabled={audioState === "idle" || busy}>
+          ⏹ Stop
+        </button>
+        <button className="ctrl-btn" onClick={() => fetchAndPlay(story)} disabled={busy || !storyDone}>
+          ↺ Restart
+        </button>
+        <button className="ctrl-btn new-story" onClick={handleReset}>
+          ✦ New Story
+        </button>
+      </div>
 
       <div className="story-scroll">
-        {audioState === "loading" && isReady && (
-          <p className="audio-loading">{loadingLine.current}</p>
+        {audioState === "loading" && (
+          <div className="audio-loading-wrap">
+            <div className="audio-loading-emoji">🎙️</div>
+            <p className="audio-loading-text">{loadingLine.current}</p>
+            <div className="audio-loading-dots">
+              <span /><span /><span />
+            </div>
+          </div>
         )}
         {loading && !story && <p className="loading-text">Once upon a time...</p>}
         {story && renderStory()}
