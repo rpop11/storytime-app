@@ -21,6 +21,7 @@ STORY RULES:
 - Write in a warm, gentle, engaging tone.
 - Never include scary, violent, or adult content. No curse words ever.
 - The story must always end with a moral — but weave it in naturally. Do not announce it with "The moral of the story is...". Let the characters discover it themselves.
+- Give characters fresh, imaginative names every story. Never reuse names like Lily, Max, Sam, or Benny. Invent new ones each time.
 
 LENGTH:
 - Short = approximately 150 words
