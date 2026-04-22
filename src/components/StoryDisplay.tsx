@@ -87,6 +87,10 @@ export default function StoryDisplay({ story, loading, onReset, unlockedAudioRef
       audio.onplay = () => { rafId = requestAnimationFrame(tick); };
       audio.onpause = () => cancelAnimationFrame(rafId);
       audio.onended = () => cancelAnimationFrame(rafId);
+      // On mobile, play fires before loadedmetadata — start tick now if already playing
+      if (!audio.paused) {
+        rafId = requestAnimationFrame(tick);
+      }
     };
 
     audio.onended = () => {
